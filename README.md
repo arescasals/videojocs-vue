@@ -1,8 +1,8 @@
-# Catàleg de videojocs
+# PixelVault: catàleg de videojocs
 
 ## Temàtica i descripció
 
-Aplicació web feta amb Vue que mostra un catàleg de videojocs amb el seu gènere, plataforma, any de llançament i una breu descripció. Els jocs es llegeixen en temps real de Cloud Firestore. L'aplicació està publicada amb Firebase Hosting.
+Aplicació web feta amb Vue que mostra un catàleg de videojocs amb el seu gènere, plataforma, any de llançament i una breu descripció.Els jocs es llegeixen de Cloud Firestore. Inclou cercador per títol, filtre per gènere i ordenació. L'aplicació està publicada amb Firebase Hosting.
 
 ## Tecnologies
 
@@ -28,30 +28,31 @@ El fitxer `firebase.json` publica la carpeta `dist` i redirigeix totes les adrec
 
 ## Components propis
 
-- `NavBar.vue`: menú de navegació amb els enllaços `RouterLink` a les tres rutes.
-- `GameCard.vue`: fitxa d'un sol videojoc (títol, gènere, plataforma, any i descripció).
+- `NavBar.vue`: menú de navegació amb la marca PixelVault i els enllaços `RouterLink` a les tres rutes.
+- `GameCard.vue`: fitxa d'un sol videojoc (portada amb icona segons el gènere, títol, gènere, plataforma, any i descripció).
 - `GameList.vue`: llista de fitxes; mostra una `GameCard` per cada joc que rep.
 
 ## Exemple de comunicació amb props
 
-- **Pare:** `VideojocsView.vue` (vista) llegeix la col·lecció `games` de Firestore i passa la llista a `GameList` amb la prop `games`.
+- **Pare:** `VideojocsView.vue` llegeix la col·lecció `games` de Firestore, aplica la cerca, el filtre i l'ordenació, i passa la llista resultant a `GameList` amb la prop `games`.
 - **Fill:** `GameList.vue` rep la prop `games` (un array de jocs) i passa cada joc a `GameCard` amb la prop `game`.
 - **Dades que es passen:** els documents de Firestore (`title`, `genre`, `platform`, `year`, `description`).
 - Les props estan declarades amb `defineProps` i els fills només les mostren, sense modificar-les.
+- `HomeView.vue` fa el mateix amb els quatre jocs destacats de l'inici.
 
 ## Rutes
 
-- `/` (Inici): pàgina de benvinguda amb una breu presentació.
-- `/videojocs` (Videojocs): llista de videojocs llegida de Firestore, amb estat de càrrega, missatge si no hi ha dades i missatge si la lectura falla.
-- `/sobre` (Sobre): informació sobre l'activitat i les tecnologies.
+- `/` (Inici): portada, quatre targetes de característiques, quatre jocs destacats llegits de Firestore i una crida a l'acció.
+- `/videojocs` (Videojocs): catàleg complet llegit de Firestore, amb cercador per títol, filtre per gènere i ordenació. Mostra un estat de càrrega, un missatge si no hi ha dades i un missatge si la lectura falla.
+- `/sobre` (Sobre): descripció del projecte, tecnologies, com funciona i xifres.
 
 ## Cloud Firestore
 
-- **Col·lecció:** `games`
+- **Col·lecció:** `games` (12 documents)
 - **Camps principals:** `title` (text), `genre` (text), `platform` (text), `year` (número) i `description` (text).
-- **Vista que mostra les dades:** `/videojocs` (`VideojocsView.vue`).
+- **Vistes que en mostren les dades:** `/videojocs` (`VideojocsView.vue`) i els jocs destacats de l'inici (`HomeView.vue`).
 - **Regles** (fitxer `firestore.rules`): lectura permesa a la col·lecció `games` i escriptura bloquejada.
 
 ## Web publicada
 
-https://videojocs-ares.web.app/
+https://videojocs-ares.web.app
